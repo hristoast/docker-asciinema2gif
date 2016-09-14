@@ -1,18 +1,21 @@
-FROM ubuntu:14.04.5
+FROM node:6.5.0-slim
 
+# Install dependencies
 RUN apt-get update \
-    && apt-get install -y gifsicle git imagemagick npm
-RUN ln -fs /usr/bin/nodejs /usr/bin/node
+    && apt-get install -y bzip2 gifsicle git imagemagick
 
+# Clone asciinema2gif, check out the latest release
+RUN git clone -b v0.4.1 https://github.com/tav/asciinema2gif.git a
+WORKDIR /a
+
+# Install PhantomJS
 ENV PHANTOMJS_CDNURL=http://cnpmjs.org/downloads
-
-RUN git clone https://github.com/tav/asciinema2gif.git
-WORKDIR /asciinema2gif
-
 RUN npm install -u phantomjs2
-RUN ln -fs /asciinema2gif/node_modules/phantomjs2/lib/phantom/bin/phantomjs /usr/bin/
+RUN ln -fs /a/node_modules/phantomjs2/lib/phantom/bin/phantomjs /usr/bin/
 
-RUN chmod +x asciinema2gif
+# Set up to run asciinema2gif
+RUN mkdir o
 ENV TERM=xterm
 
-ENTRYPOINT ./asciinema2gif
+# Run the asciinema2gif
+ENTRYPOINT ["./asciinema2gif", "-o", "./o"]
