@@ -1,4 +1,4 @@
-TAG = asciinema2gif:v0.4.1
+TAG = asciinema2gif:v0.4.1-git
 
 .DEFAULT_GOAL := build
 

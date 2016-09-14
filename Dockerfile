@@ -4,8 +4,8 @@ FROM node:6.5.0-slim
 RUN apt-get update \
     && apt-get install -y bzip2 gifsicle git imagemagick
 
-# Clone asciinema2gif, check out the latest release
-RUN git clone -b v0.4.1 https://github.com/tav/asciinema2gif.git a
+# Clone my fork of asciinema2gif, which works with self-hosted players
+RUN git clone https://github.com/hristoast/asciinema2gif.git a
 WORKDIR /a
 
 # Install PhantomJS
